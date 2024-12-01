@@ -1,7 +1,7 @@
-# adventofcode 2023
+# adventofcode 2024
 # crushallhumans
 # puzzle N
-# 12/n/2023
+# 12/n/2024
 
 import os
 import re
@@ -21,6 +21,13 @@ pp = pprint.PrettyPrinter()
 
 ADVENT_YEAR = '2024'
 DEBUG = False
+
+def P(*args):
+    if DEBUG:
+        if len([*args]) > 1:
+            pp.pprint([*args])
+        else:
+            pp.pprint(*args)
 
 def one_star(param_set, is_two_star = False):
     print("---------------one_star--------------------")
@@ -104,7 +111,7 @@ if __name__ == '__main__':
         input_set = ()
         
         with open("/Users/%s/Development/crushallhumans/adventofcode%s/inputs/%s.txt" % (username,ADVENT_YEAR,filename)) as input_file:
-            input_set = [input_line.strip() for input_line in input_file]
+            input_set = reprocess_input(input_file.read())
 
         start = (time.time() * 1000)
         ret = one_star(input_set)
