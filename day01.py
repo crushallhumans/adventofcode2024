@@ -22,12 +22,12 @@ pp = pprint.PrettyPrinter()
 ADVENT_YEAR = '2024'
 DEBUG = False
 
-def P(*args):
-    if DEBUG:
-        if len([*args]) > 1:
-            pp.pprint([*args])
-        else:
-            pp.pprint(*args)
+def reprocess_input(param_set):
+    if isinstance(param_set,str):
+        l = []
+        l = [re.split(r'\s+',input_line.strip()) for input_line in param_set.splitlines()]
+        param_set = l
+    return param_set    
 
 def one_star(param_set, is_two_star = False):
     print("---------------one_star--------------------")
@@ -56,15 +56,13 @@ def two_star(param_set):
     counts = [[],{}]
     for i in param_set:
         P(i)
-        for j in [0,1]:
-            d = int(i[j])
-            if not j:
-                counts[j].append(d)
-            else:
-                if d not in counts[j]:
-                    counts[j][d] = 1
-                else:
-                    counts[j][d] += 1
+        d = int(i[0])
+        counts[0].append(d)
+        f = int(i[1])
+        if f not in counts[1]:
+            counts[1][f] = 1
+        else:
+            counts[1][f] += 1
     P(counts)
 
     for k in counts[0]:
@@ -73,13 +71,6 @@ def two_star(param_set):
             c += k * counts[1][k]
 
     return c
-
-def reprocess_input(param_set):
-    if isinstance(param_set,str):
-        l = []
-        l = [re.split(r'\s+',input_line.strip()) for input_line in param_set.splitlines()]
-        param_set = l
-    return param_set    
 
 
 def puzzle_text():
@@ -152,6 +143,12 @@ So, for these example lists, the similarity score at the end of this process is 
 
 Once again consider your left and right lists. What is their similarity score?""")
 
+def P(*args):
+    if DEBUG:
+        if len([*args]) > 1:
+            pp.pprint([*args])
+        else:
+            pp.pprint(*args)
 
 
 class testCase(unittest.TestCase):

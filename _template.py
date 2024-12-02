@@ -22,12 +22,12 @@ pp = pprint.PrettyPrinter()
 ADVENT_YEAR = '2024'
 DEBUG = False
 
-def P(*args):
-    if DEBUG:
-        if len([*args]) > 1:
-            pp.pprint([*args])
-        else:
-            pp.pprint(*args)
+def reprocess_input(param_set):
+    if isinstance(param_set,str):
+        l = []
+        l = [input_line.strip() for input_line in param_set.splitlines()]
+        param_set = l
+    return param_set    
 
 def one_star(param_set, is_two_star = False):
     print("---------------one_star--------------------")
@@ -37,7 +37,6 @@ def one_star(param_set, is_two_star = False):
         continue
     return c
 
-
 def two_star(param_set):
     print("---------------two_star--------------------")
     param_set = reprocess_input(param_set)
@@ -46,19 +45,18 @@ def two_star(param_set):
         continue
     return c
 
-def reprocess_input(param_set):
-    if isinstance(param_set,str):
-        l = []
-        l = [input_line.strip() for input_line in param_set.splitlines()]
-        param_set = l
-    return param_set    
-
 
 def puzzle_text():
     print("""--- Day N: X ---
 
 """)
 
+def P(*args):
+    if DEBUG:
+        if len([*args]) > 1:
+            pp.pprint([*args])
+        else:
+            pp.pprint(*args)
 
 
 class testCase(unittest.TestCase):
@@ -85,7 +83,6 @@ class testCase(unittest.TestCase):
             ),
             7777
         )
-
 
 
 if __name__ == '__main__':
