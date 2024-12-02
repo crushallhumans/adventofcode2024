@@ -21,6 +21,16 @@ pp = pprint.PrettyPrinter()
 
 ADVENT_YEAR = '2024'
 DEBUG = False
+TEST_INPUT_STRING_ONE = """3   4
+4   3
+2   5
+1   3
+3   9
+3   3"""
+TEST_INPUT_STRING_TWO = TEST_INPUT_STRING_ONE
+TEST_ONE_RESULT = 11
+TEST_TWO_RESULT = 31
+
 
 def reprocess_input(param_set):
     if isinstance(param_set,str):
@@ -28,6 +38,7 @@ def reprocess_input(param_set):
         l = [re.split(r'\s+',input_line.strip()) for input_line in param_set.splitlines()]
         param_set = l
     return param_set    
+
 
 def one_star(param_set, is_two_star = False):
     print("---------------one_star--------------------")
@@ -143,6 +154,13 @@ So, for these example lists, the similarity score at the end of this process is 
 
 Once again consider your left and right lists. What is their similarity score?""")
 
+
+
+
+
+
+
+#---------------------------------------------------------
 def P(*args):
     if DEBUG:
         if len([*args]) > 1:
@@ -155,29 +173,16 @@ class testCase(unittest.TestCase):
     global DEBUG
     DEBUG = True
 
-    test_set = (
-        """3   4
-4   3
-2   5
-1   3
-3   9
-3   3"""
-    )
-
     def test_one_star(self):
         self.assertEqual(
-            one_star(
-                self.__class__.test_set
-            ),
-            11
+            one_star(TEST_INPUT_STRING_ONE),
+            TEST_ONE_RESULT
         )
 
     def test_two_star(self):
         self.assertEqual(
-            two_star(
-                self.__class__.test_set
-            ),
-            31
+            two_star(TEST_INPUT_STRING_TWO),
+            TEST_TWO_RESULT
         )
 
 
