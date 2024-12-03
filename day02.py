@@ -49,7 +49,7 @@ def one_star(param_set, is_two_star = False):
     param_set = reprocess_input(param_set)
 
     c = 0
-
+    f = 0
     for i in param_set:
         unsafe_at_pos = evaluate_set_safeness(i)
         if is_two_star and unsafe_at_pos:
@@ -57,15 +57,34 @@ def one_star(param_set, is_two_star = False):
                 ii = i.copy()
                 ii.pop(d)
                 unsafe_at_pos = evaluate_set_safeness(ii)
-                P('retested at %d: '%d,ii,unsafe_at_pos)
+                #P('retested at %d: '%d,ii,unsafe_at_pos)
                 if not unsafe_at_pos:
                     break
 
+            # wrong: doesn't handle when first set item is in the wrong orientation
+            #   basically if the first two say 'uppy' but the rest is correct 'down'
+            # L = unsafe_at_pos-1
+            # R = unsafe_at_pos
+            # # remove unsafe item L
+            # ii = i.copy()
+            # ii.pop(L)
+            # unsafe_at_pos = evaluate_set_safeness(ii)
+            # #P('retested L: ',ii,unsafe_at_pos)
+            # if unsafe_at_pos:
+            #     ii = i.copy()
+            #     ii.pop(R)
+            #     unsafe_at_pos = evaluate_set_safeness(ii)
+            #     #P('retested R: ',ii,unsafe_at_pos)
+
+
+
         result = 1 if not unsafe_at_pos else 0
         c += result
-        P("final result: ",'UNSAFE' if unsafe_at_pos else 'ok',c)
-        P('')
-        P('')
+        #P("%s final result: "%f,'UNSAFE' if unsafe_at_pos else 'ok',c)
+        P(f,unsafe_at_pos > 0, i)
+        #P('')
+        #P('')
+        f += 1
     return c
 
 
@@ -73,9 +92,9 @@ def evaluate_set_safeness(i):
     uppy = True if i[1] > i[0] else False
     down = not uppy
     if bad_equality(i[1],i[0]):
-        P('unsafe at pos 1',i)
+        #P('unsafe at pos 1',i)
         return 1
-    P(i,'down' if down else 'uppy')
+    #P(i,'down' if down else 'uppy')
 
     for d in range(1,len(i)):
         if is_unsafe(
@@ -84,14 +103,14 @@ def evaluate_set_safeness(i):
             i[d],
             i[d-1]
         ):
-            P('unsafe at pos %i' % d,i)
+            #P('unsafe at pos %i' % d,i)
             return d
     return 0
 
 
 
 def is_unsafe(down,uppy,a,b):
-    P('down' if down else 'uppy',b,a,abs(a-b))
+    #P('down' if down else 'uppy',b,a,abs(a-b))
     if (
         (down and a > b)
         or
@@ -99,7 +118,7 @@ def is_unsafe(down,uppy,a,b):
         or
         bad_equality(a,b)
     ):
-        P('unsafe')
+        #P('unsafe')
         return True
     return False
 
@@ -211,7 +230,7 @@ if __name__ == '__main__':
         puzzle_text()
 
     except:
-        DEBUG = False
+        DEBUG = True
 
         username = 'crushing'
         m = hashlib.sha256()
