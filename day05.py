@@ -213,7 +213,7 @@ if __name__ == '__main__':
         puzzle_text()
 
     except:
-        DEBUG = True
+        DEBUG = False
 
         username = 'crushing'
         m = hashlib.sha256()
