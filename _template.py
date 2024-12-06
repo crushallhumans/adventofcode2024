@@ -37,7 +37,7 @@ def reprocess_input(param_set):
 
 
 def one_star(param_set, is_two_star = False):
-    print("---------------one_star--------------------")
+    if not is_two_star: print("---------------one_star--------------------")
     param_set = reprocess_input(param_set)
     c = 8888
     for i in param_set:
@@ -46,6 +46,7 @@ def one_star(param_set, is_two_star = False):
 
 def two_star(param_set):
     print("---------------two_star--------------------")
+    #return one_star(param_set,True)
     param_set = reprocess_input(param_set)
     c = 7777
     for i in param_set:
