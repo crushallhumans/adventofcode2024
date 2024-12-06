@@ -66,8 +66,8 @@ def puzzle_text():
 
 
 #---------------------------------------------------------
-def P(*args):
-    if DEBUG:
+def P(*args, force = False):
+    if DEBUG or force:
         if len([*args]) > 1:
             pp.pprint([*args])
         else:
