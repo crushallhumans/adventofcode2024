@@ -92,6 +92,8 @@ def one_star(param_set, is_two_star = False):
                 P('works!')
                 c += test_product
                 break
+            elif s > test_product:
+                break
             P('                                             ')
         P('-----------------------------------------------')
         d += 1
