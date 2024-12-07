@@ -66,12 +66,18 @@ def puzzle_text():
 
 
 #---------------------------------------------------------
-def P(*args, force = False):
+def P(*args, force = False, end = False):
     if DEBUG or force:
         if len([*args]) > 1:
-            pp.pprint([*args])
+            if end:
+                print(' '.join(str(x) for x in [*args]),end = end)
+            else:
+                pp.pprint([*args])
         else:
-            pp.pprint(*args)
+            if end:
+                print(*args,end = end)
+            else:
+                pp.pprint(*args)
 
 
 class testCase(unittest.TestCase):
