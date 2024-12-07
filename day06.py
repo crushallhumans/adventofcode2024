@@ -56,7 +56,7 @@ def one_star(param_set, is_two_star = False):
     for y in range(limit_y):
         for x in range(len(param_set[y])):
             grid_coord = (x,y)
-            grid_hash[grid_coord] = [param_set[y][x],0] #also a counter for path
+            grid_hash[grid_coord] = [param_set[y][x],0,{}] #path counter, path direction dict
             if grid_hash[grid_coord][0] == '^':
                 guard_coord = [x,y]
             if not y:
@@ -95,18 +95,29 @@ def one_star(param_set, is_two_star = False):
 def process_path(grid_hash,limit_x,limit_y,directions,guard_coord,inspect = False):
     direction = 0
     d = 0
-    last_360_path = []
-    curr_360_path = []
-    start_guard_coord = guard_coord.copy()
-    start_direction = 0
-    last_360_path_to_from_start = []
-    curr_360_path_to_from_start = []
-    loop_rotations = 0
+    # last_360_path = []
+    # curr_360_path = []
+    # start_guard_coord = guard_coord.copy()
+    # start_direction = 0
+    # last_360_path_to_from_start = []
+    # curr_360_path_to_from_start = []
+    # loop_rotations = 0
     loop_found = False
     while guard_in_room(guard_coord,limit_x,limit_y) and d < 1000000:
-        curr_360_path.append(tuple(guard_coord))
-        curr_360_path_to_from_start.append(tuple(guard_coord))
+        # curr_360_path.append(tuple(guard_coord))
+        # curr_360_path_to_from_start.append(tuple(guard_coord))
         grid_hash[tuple(guard_coord)][1] += 1
+
+        # loop detector - if you path in the same *direction* through a coord twice, you've looped
+        if direction not in grid_hash[tuple(guard_coord)][2]:
+            grid_hash[tuple(guard_coord)][2][direction] = 0
+        grid_hash[tuple(guard_coord)][2][direction] += 1
+        if grid_hash[tuple(guard_coord)][2][direction] > 2:
+            P('loop found!')
+            loop_found = True
+            d = 9999999999
+            break
+
         next_coord = [
             guard_coord[0] + directions[direction][0],
             guard_coord[1] + directions[direction][1]
@@ -120,20 +131,20 @@ def process_path(grid_hash,limit_x,limit_y,directions,guard_coord,inspect = Fals
             if grid_hash[tuple(next_coord)][0] == '#':
                 #P('rotate')
                 direction += 90
-                loop_rotations += 1
                 if direction not in directions:
                     direction = 0
-                if loop_rotations >= len(directions):
-                    loop_rotations = 0
-                    #P('last: ',last_360_path)
-                    #P('curr: ',curr_360_path)
-                    if (last_360_path == curr_360_path):
-                        P('loop found!')
-                        loop_found = True
-                        d = 9999999999
-                        break
-                    last_360_path = curr_360_path.copy()
-                    curr_360_path = []
+                # loop_rotations += 1
+                # if loop_rotations >= len(directions):
+                #     loop_rotations = 0
+                #     #P('last: ',last_360_path)
+                #     #P('curr: ',curr_360_path)
+                #     if (last_360_path == curr_360_path):
+                #         P('loop found!')
+                #         loop_found = True
+                #         d = 9999999999
+                #         break
+                #     last_360_path = curr_360_path.copy()
+                #     curr_360_path = []
 
                 next_coord = [
                     guard_coord[0] + directions[direction][0],
@@ -143,14 +154,14 @@ def process_path(grid_hash,limit_x,limit_y,directions,guard_coord,inspect = Fals
                 next_move_ok = True
             e += 1
         guard_coord = next_coord
-        if guard_coord == start_guard_coord and direction == start_direction:
-            if (last_360_path_to_from_start == curr_360_path_to_from_start):
-                P('full loop found!')
-                loop_found = True
-                d = 9999999999
-                break
-            last_360_path_to_from_start = curr_360_path_to_from_start.copy()
-            curr_360_path_to_from_start = []
+        # if guard_coord == start_guard_coord and direction == start_direction:
+        #     if (last_360_path_to_from_start == curr_360_path_to_from_start):
+        #         P('full loop found!')
+        #         loop_found = True
+        #         d = 9999999999
+        #         break
+        #     last_360_path_to_from_start = curr_360_path_to_from_start.copy()
+        #     curr_360_path_to_from_start = []
         d += 1
     return [grid_hash,loop_found]
 
