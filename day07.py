@@ -70,7 +70,6 @@ def one_star(param_set, is_two_star = False):
             # 2 == catenate
             operator_sets = list(product([0, 1, 2], repeat=len(test_list)-1))
 
-        P
         P('test: ',test_product,test_list)
         P('ops: ',operator_sets)
 
