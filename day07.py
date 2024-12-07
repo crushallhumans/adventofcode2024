@@ -55,7 +55,7 @@ def one_star(param_set, is_two_star = False):
     c = 0
     d = 1
     limit = len(param_set)
-    P(0,'/',limit,end='\r')
+    P(0,'/',limit)
     for i in param_set:
 
         P(d,'/',limit,end='\r',force=True)
